@@ -40,7 +40,7 @@ type XmlBuilderOptions = {
   ignoreAttributes: boolean;
   cdataPropName: false | string;
   commentPropName: false | string;
-  format: boolean;
+  format: boolean | {tagEndChar?: string, newLine?: string};
   indentBy: string;
   arrayNodeName: string;
   suppressEmptyNode: boolean;
@@ -57,11 +57,11 @@ type XmlBuilderOptionsOptional = Partial<XmlBuilderOptions>;
 type ESchema = string | object | Array<string|object>;
 
 type ValidationError = {
-  err: { 
+  err: {
     code: string;
     msg: string,
     line: number,
-    col: number 
+    col: number
   };
 };
 

@@ -46,8 +46,13 @@ function Builder(options) {
 
   if (this.options.format) {
     this.indentate = indentate;
-    this.tagEndChar = '>\n';
-    this.newLine = '\n';
+    if (typeof this.options.format === 'object') {
+      this.tagEndChar = this.options.format.tagEndChar || '>\n';
+      this.newLine = this.options.format.newLine || '\n';
+    } else {
+      this.tagEndChar = '>\n';
+      this.newLine = '\n';
+    }
   } else {
     this.indentate = function() {
       return '';
@@ -195,7 +200,7 @@ function buildEmptyObjNode(val, key, attrStr, level) {
 function buildTextValNode(val, key, attrStr, level) {
   let textValue = this.options.tagValueProcessor(key, val);
   textValue = this.replaceEntitiesValue(textValue);
-  
+
   return (
     this.indentate(level) +
     '<' +
