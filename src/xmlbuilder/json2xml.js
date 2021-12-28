@@ -22,13 +22,13 @@ const defaultOptions = {
   commentPropName: false,
   unpairedTags: [],
   entities: {
-    ">" : { regex: new RegExp(">", "g"), val: "&gt;" },
-    "<" : { regex: new RegExp("<", "g"), val: "&lt;" },
-    "sQuot" : { regex: new RegExp("\'", "g"), val: "&apos;" },
-    "dQuot" : { regex: new RegExp("\"", "g"), val: "&quot;" }
+    '>': {regex: new RegExp('>', 'g'), val: '&gt;'},
+    '<': {regex: new RegExp('<', 'g'), val: '&lt;'},
+    sQuot: {regex: new RegExp("'", 'g'), val: '&apos;'},
+    dQuot: {regex: new RegExp('"', 'g'), val: '&quot;'},
   },
   processEntities: true,
-  stopNodes: []
+  stopNodes: [],
 };
 
 function Builder(options) {
@@ -42,7 +42,7 @@ function Builder(options) {
     this.isAttribute = isAttribute;
   }
 
-  this.processTextOrObjNode = processTextOrObjNode
+  this.processTextOrObjNode = processTextOrObjNode;
 
   if (this.options.format) {
     this.indentate = indentate;
@@ -76,13 +76,13 @@ function Builder(options) {
 }
 
 Builder.prototype.build = function(jObj) {
-  if(this.options.preserveOrder){
+  if (this.options.preserveOrder) {
     return buildFromOrderedJs(jObj, this.options);
-  }else {
-    if(Array.isArray(jObj) && this.options.arrayNodeName && this.options.arrayNodeName.length > 1){
+  } else {
+    if (Array.isArray(jObj) && this.options.arrayNodeName && this.options.arrayNodeName.length > 1) {
       jObj = {
-        [this.options.arrayNodeName] : jObj
-      }
+        [this.options.arrayNodeName]: jObj,
+      };
     }
     return this.j2x(jObj, 0).val;
   }
@@ -105,7 +105,7 @@ Builder.prototype.j2x = function(jObj, level) {
         let val = this.options.attributeValueProcessor(attr, '' + jObj[key]);
         val = this.replaceEntitiesValue(val);
         attrStr += ' ' + attr + '="' + val + '"';
-      }else {
+      } else {
         //tag value
         if (key === this.options.textNodeName) {
           let newval = this.options.tagValueProcessor(key, '' + jObj[key]);
@@ -124,7 +124,7 @@ Builder.prototype.j2x = function(jObj, level) {
         } else if (item === null) {
           val += this.indentate(level) + '<' + key + '/' + this.tagEndChar;
         } else if (typeof item === 'object') {
-          val += this.processTextOrObjNode(item, key, level)
+          val += this.processTextOrObjNode(item, key, level);
         } else {
           val += this.buildTextNode(item, key, '', level);
         }
@@ -140,14 +140,14 @@ Builder.prototype.j2x = function(jObj, level) {
           attrStr += ' ' + Ks[j] + '="' + val + '"';
         }
       } else {
-        val += this.processTextOrObjNode(jObj[key], key, level)
+        val += this.processTextOrObjNode(jObj[key], key, level);
       }
     }
   }
   return {attrStr: attrStr, val: val};
 };
 
-function processTextOrObjNode (object, key, level) {
+function processTextOrObjNode(object, key, level) {
   const result = this.j2x(object, level + 1);
   if (object[this.options.textNodeName] !== undefined && Object.keys(object).length === 1) {
     return this.buildTextNode(result.val, key, result.attrStr, level);
@@ -201,21 +201,11 @@ function buildTextValNode(val, key, attrStr, level) {
   let textValue = this.options.tagValueProcessor(key, val);
   textValue = this.replaceEntitiesValue(textValue);
 
-  return (
-    this.indentate(level) +
-    '<' +
-    key +
-    attrStr +
-    '>' +
-     textValue +
-    '</' +
-    key +
-    this.tagEndChar
-  );
+  return this.indentate(level) + '<' + key + attrStr + '>' + textValue + '</' + key + this.tagEndChar;
 }
 
-function replaceEntitiesValue(textValue){
-  if(textValue && textValue.length > 0 && this.options.processEntities){
+function replaceEntitiesValue(textValue) {
+  if (textValue && textValue.length > 0 && this.options.processEntities) {
     for (const entityName in this.options.entities) {
       const entity = this.options.entities[entityName];
       textValue = textValue.replace(entity.regex, entity.val);
@@ -225,9 +215,9 @@ function replaceEntitiesValue(textValue){
 }
 
 function buildEmptyTextNode(val, key, attrStr, level) {
-  if( val === '' && this.options.unpairedTags.indexOf(key) !== -1){
+  if (val === '' && this.options.unpairedTags.indexOf(key) !== -1) {
     return this.indentate(level) + '<' + key + attrStr + this.tagEndChar;
-  }else if (val !== '') {
+  } else if (val !== '') {
     return this.buildTextValNode(val, key, attrStr, level);
   } else {
     return this.indentate(level) + '<' + key + attrStr + '/' + this.tagEndChar;
