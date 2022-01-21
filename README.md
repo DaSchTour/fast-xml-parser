@@ -1,7 +1,6 @@
 # [fast-xml-parser](https://www.npmjs.com/package/fast-xml-parser)
 [![Backers on Open Collective](https://opencollective.com/fast-xml-parser/backers/badge.svg)](#backers) [![Sponsors on Open Collective](https://opencollective.com/fast-xml-parser/sponsors/badge.svg)](#sponsors) [![Known Vulnerabilities](https://snyk.io/test/github/naturalintelligence/fast-xml-parser/badge.svg)](https://snyk.io/test/github/naturalintelligence/fast-xml-parser)
 [![NPM quality][quality-image]][quality-url]
-[![Travis ci Build Status](https://travis-ci.org/NaturalIntelligence/fast-xml-parser.svg?branch=master)](https://travis-ci.org/NaturalIntelligence/fast-xml-parser)
 [![Coverage Status](https://coveralls.io/repos/github/NaturalIntelligence/fast-xml-parser/badge.svg?branch=master)](https://coveralls.io/github/NaturalIntelligence/fast-xml-parser?branch=master)
 [<img src="https://img.shields.io/badge/Try-me-blue.svg?colorA=FFA500&colorB=0000FF" alt="Try me"/>](https://naturalintelligence.github.io/fast-xml-parser/)
 [![NPM total downloads](https://img.shields.io/npm/dt/fast-xml-parser.svg)](https://npm.im/fast-xml-parser)
@@ -90,13 +89,23 @@ const xmlContent = builder.build(jObj);
 
 In a HTML page
 ```html
-<script src="path/to/fxparser.js"></script>
+<script src="path/to/fxp.min.js"></script>
 :
 <script>
   const parser = new fxparser.XMLParser();
   parser.parse(xmlContent);
 </script>
 ```
+
+Check lib folder for different browser bundles
+
+| Bundle Name | Size |
+| -- | -- |
+| fxbuilder.min.js | 5.2K |
+| fxparser.js |  50K |
+| fxparser.min.js |  17K |
+| fxp.min.js |  22K |
+| fxvalidator.min.js | 5.7K |
 
 ### Documents
 **v3**
@@ -107,9 +116,9 @@ In a HTML page
 2.  [XML Parser](./docs/v4/2.XMLparseOptions.md)
 3.  [XML Builder](./docs/v4/3.XMLBuilder.md)
 4.  [XML Validator](./docs/v4/4.XMLValidator.md)
-5.  [Entites](./docs/5.Entities.md)
-6.  [HTML Document Parsing](./docs/6.HTMLParsing.md)
-7. [PI Tag processing](./docs/7.PITags.md)
+5.  [Entites](./docs/v4/5.Entities.md)
+6.  [HTML Document Parsing](./docs/v4/6.HTMLParsing.md)
+7. [PI Tag processing](./docs/v4/7.PITags.md)
 ## Performance
 
 ### XML Parser
@@ -135,6 +144,7 @@ In a HTML page
   * Run tests for a route or from a route
   * Customizable reporting
   * Central dashboard for better monitoring
+  * Options to integrate E2E tests with Jira, Github etc using Central dashboard `Tian`.
 * **[Stubmatic](https://github.com/NaturalIntelligence/Stubmatic)** : Create fake webservices, DynamoDB or S3 servers, Manage fake/mock stub data, Or fake any HTTP(s) call.
 
 
